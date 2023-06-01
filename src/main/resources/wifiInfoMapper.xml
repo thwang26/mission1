@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wifiInfoSQL">
+    <insert id="insertWifiInfo">
+        insert into wifiInfo values
+            <foreach item="item" collection="list" separator=",">
+            (#{item.X_SWIFI_MGR_NO}
+            , #{item.X_SWIFI_WRDOFC}
+            , #{item.X_SWIFI_MAIN_NM}
+            , #{item.X_SWIFI_ADRES1}
+            , #{item.X_SWIFI_ADRES2}
+            , #{item.X_SWIFI_INSTL_FLOOR}
+            , #{item.X_SWIFI_INSTL_TY}
+            , #{item.X_SWIFI_INSTL_MBY}
+            , #{item.X_SWIFI_SVC_SE}
+            , #{item.X_SWIFI_CMCWR}
+            , #{item.X_SWIFI_CNSTC_YEAR}
+            , #{item.X_SWIFI_INOUT_DOOR}
+            , #{item.X_SWIFI_REMARS3}
+            , #{item.LAT}
+            , #{item.LNT}
+            , #{item.WORK_DTTM})
+            </foreach>
+    </insert>
+
+    <delete id="delete">
+        delete from wifiInfo;
+    </delete>
+
+    <select id="selectNearWifi" resultType="nearWifiDTO">
+        select * from wifiInfo limit 20;
+    </select>
+</mapper>
