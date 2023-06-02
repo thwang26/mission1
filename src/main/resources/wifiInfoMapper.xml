@@ -29,6 +29,13 @@
     </delete>
 
     <select id="selectNearWifi" resultType="nearWifiDTO">
-        select * from wifiInfo limit 20;
+        select
+            ROUND((6371*acos(cos(radians(${lat}))*cos(radians(LAT))*cos(radians(LNT)
+                -radians(${lnt}))+sin(radians(${lat}))*sin(radians(LAT)))), 3)
+                as DISTANCE,
+            *
+        from wifiInfo
+        order by DISTANCE
+            limit 20;
     </select>
 </mapper>

@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class WifiRequest {
-    double lat;
-    double lnt;
+    private double lat;
+    private double lnt;
 }

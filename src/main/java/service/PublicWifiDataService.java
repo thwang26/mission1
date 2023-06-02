@@ -12,10 +12,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
+/** 공공 와이파이 데이터 저장 class */
 public class PublicWifiDataService {
-    public JsonArray getApi(int startIdx, int endIdx) throws IOException {
+    /** 지정한 인덱스 범위만큼의 데이터 api 요청 */
+    public JsonObject getApi(int startIdx, int endIdx) throws IOException {
         String urlBuilder = "http://openapi.seoul.go.kr:8088" + "/" + URLEncoder.encode("4668414e5568747734355a596d6b6e", "UTF-8") +
                 "/" + URLEncoder.encode("json", "UTF-8") +
                 "/" + URLEncoder.encode("TbPublicWifiInfo", "UTF-8") +
@@ -35,15 +36,10 @@ public class PublicWifiDataService {
         }
 
         JsonObject jsonObject = (JsonObject)JsonParser.parseReader(rd);
-        JsonObject TbPublicWifiInfo = (JsonObject)jsonObject.get("TbPublicWifiInfo");
         rd.close();
         conn.disconnect();
 
-        if (TbPublicWifiInfo == null) {
-            return null;
-        } else {
-            return (JsonArray)TbPublicWifiInfo.get("row");
-        }
+        return (JsonObject)jsonObject.get("TbPublicWifiInfo");
     }
 
 //    public List<JsonArray> getApiJsonArrays() throws IOException {
@@ -66,13 +62,15 @@ public class PublicWifiDataService {
 //        return jsonArrays;
 //    }
 
-    public List<JsonArray> getApiJsonArrays() {
+    /** 멀티스레드+반복문으로 api 에게 모든 데이터 요청 */
+    public List<JsonArray> getApiJsonArrays() throws IOException {
         List<JsonArray> jsonArrays = new ArrayList<>();
+        List<Thread> threads = new ArrayList<>();
+        int totalCount = getApi(1, 1).get("list_total_count").getAsInt();
+        // 총 데이터의 개수
         int startIdx = 1;
         int endIdx = 1000;
         final int range = 1000;
-
-        List<Thread> threads = new ArrayList<>();
 
         do {
             int finalStartIdx = startIdx;
@@ -80,9 +78,11 @@ public class PublicWifiDataService {
 
             Thread thread = new Thread(() -> {
                 try {
-                    JsonArray jsonArray = getApi(finalStartIdx, finalEndIdx);
+                    JsonArray jsonArray = (JsonArray) getApi(finalStartIdx, finalEndIdx).get("row");
                     synchronized (jsonArrays) {
-                        jsonArrays.add(jsonArray);
+                        if (!jsonArray.isJsonNull()) {
+                            jsonArrays.add(jsonArray);
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -95,8 +95,7 @@ public class PublicWifiDataService {
             startIdx += range;
             endIdx += range;
 
-            // 데이터를 모두 가져왔을 때 종료
-        } while (startIdx < 24000);
+        } while (startIdx < totalCount);
 
         // 모든 스레드가 작업을 완료할 때까지 대기
         for (Thread thread : threads) {
@@ -108,8 +107,9 @@ public class PublicWifiDataService {
         }
 
         return jsonArrays;
-    } // 멀티쓰레드 사용
+    }
 
+    /** Json -> DTO 파싱 후 위경도 보정 호출 */
     public List<WifiInfoDTO> mapJsonToDTO(List<JsonArray> jsonArrays) {
         List<WifiInfoDTO> wifiInfoDTOList = new ArrayList<>();
 
@@ -117,7 +117,7 @@ public class PublicWifiDataService {
             for (JsonElement jsonElement: jsonArray) {
                 if (!jsonElement.isJsonNull()) {
                     WifiInfoDTO wifiInfoDTO = new Gson().fromJson(jsonElement, WifiInfoDTO.class);
-                    wifiInfoDTOList.add(wifiInfoDTO);
+                    wifiInfoDTOList.add(geoCalibrate(wifiInfoDTO));
                 }
             }
         }
@@ -125,6 +125,21 @@ public class PublicWifiDataService {
         return wifiInfoDTOList;
     }
 
+    /** 위경도 값이 잘못되었을 시 보정 해 주는 작업
+     위경도 값이 없으면(0이라면) 보정하지 않음) */
+    public WifiInfoDTO geoCalibrate(WifiInfoDTO wifiInfoDTO) {
+        double lnt = wifiInfoDTO.getLNT();
+        double lat = wifiInfoDTO.getLAT();
+
+        if (lat != 0 && !(lat >= 35 && lat <= 40)) {
+            wifiInfoDTO.setLNT(lat); // 경도 (127.xxx)
+            wifiInfoDTO.setLAT(lnt); // 위도 (37.xxx)
+        }
+
+        return wifiInfoDTO;
+    }
+
+    /**  api데이터 요청 후 데이터 db에 저장요청 */
     public int savePublicWifiData() throws IOException {
         List<JsonArray> jsonArrays = getApiJsonArrays();
         List<WifiInfoDTO> wifiInfoDTOList = mapJsonToDTO(jsonArrays);

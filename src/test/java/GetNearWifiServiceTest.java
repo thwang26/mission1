@@ -17,8 +17,8 @@ public class GetNearWifiServiceTest {
     @Test
     public void getNearWifi() {
         // given
-        wifiRequest.setLnt(1);
-        wifiRequest.setLat(2);
+        wifiRequest.setLnt(127);
+        wifiRequest.setLat(37);
 
         // when
         List<NearWifiDTO> list = wifiInfoDAO.selectNearWifi(wifiRequest);

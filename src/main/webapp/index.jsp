@@ -84,8 +84,8 @@
         <td><%=nearWifiDTO.getX_SWIFI_CNSTC_YEAR()%></td>
         <td><%=nearWifiDTO.getX_SWIFI_INOUT_DOOR()%></td>
         <td><%=nearWifiDTO.getX_SWIFI_REMARS3()%></td>
-        <td><%=nearWifiDTO.getLAT()%></td>
         <td><%=nearWifiDTO.getLNT()%></td>
+        <td><%=nearWifiDTO.getLAT()%></td>
         <td><%=nearWifiDTO.getWORK_DTTM()%></td>
     </tr>
     <%

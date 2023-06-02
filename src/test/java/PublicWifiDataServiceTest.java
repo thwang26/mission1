@@ -1,10 +1,8 @@
 import com.google.gson.JsonArray;
 import domain.WifiInfoDTO;
-import org.junit.After;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import repository.WifiInfoDAO;
 import repository.WifiInfoDAOImpl;
 import service.PublicWifiDataService;
 
@@ -21,7 +19,7 @@ public class PublicWifiDataServiceTest {
         // given
 
         // when
-        JsonArray jsonArray = publicWifiDataService.getApi(1, 1);
+        JsonArray jsonArray = (JsonArray) publicWifiDataService.getApi(1, 1).get("row");
         System.out.println(jsonArray.toString());
         // then
         Assertions.assertFalse(jsonArray.isJsonNull());
@@ -40,5 +38,4 @@ public class PublicWifiDataServiceTest {
         // then
         Assertions.assertEquals(23304, number);
     }
-
 }
