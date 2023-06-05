@@ -19,7 +19,6 @@ public class PublicWifiDataService {
         OpenApiService openApiService = new OpenApiService();
         List<JsonArray> jsonArrays = openApiService.getApiJsonArrays();
         List<WifiInfoDTO> wifiInfoDTOList = openApiService.mapJsonToDTO(jsonArrays);
-
         return wifiInfoDAO.insertWifiInfo(wifiInfoDTOList);
     }
 

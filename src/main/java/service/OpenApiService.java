@@ -2,8 +2,6 @@ package service;
 
 import com.google.gson.*;
 import domain.WifiInfoDTO;
-import repository.WifiInfoDAO;
-import repository.WifiInfoDAOImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,60 +40,40 @@ public class OpenApiService {
         return (JsonObject)jsonObject.get("TbPublicWifiInfo");
     }
 
-//    public List<JsonArray> getApiJsonArrays() throws IOException {
-//        List<JsonArray> jsonArrays = new ArrayList<>();
-//        int startIdx = 1;
-//        int endIdx = 1000;
-//        final int range = 1000;
-//
-//        while (true) {
-//            JsonArray jsonArray = getApi(startIdx, endIdx);
-//            if (jsonArray == null) {
-//                break;
-//            } else {
-//                jsonArrays.add(jsonArray);
-//                startIdx += range;
-//                endIdx += range;
-//            }
-//        }
-//
-//        return jsonArrays;
-//    }
-
     /** 멀티스레드+반복문으로 api 에게 모든 데이터 요청 */
     public List<JsonArray> getApiJsonArrays() throws IOException {
-        List<JsonArray> jsonArrays = new ArrayList<>();
+        List<JsonArray> jsonArrays = Collections.synchronizedList(new ArrayList<>());
         List<Thread> threads = new ArrayList<>();
-        int totalCount = getApi(1, 1).get("list_total_count").getAsInt();
-        // 총 데이터의 개수
         int startIdx = 1;
         int endIdx = 1000;
         final int range = 1000;
+        int totalRequest = (getApi(1, 1).get("list_total_count").getAsInt() / range) + 1;
+        // 총 요청해야 하는 횟수
 
-        do {
+        while (totalRequest-- > 0) {
             int finalStartIdx = startIdx;
             int finalEndIdx = endIdx;
 
             Thread thread = new Thread(() -> {
                 try {
                     JsonArray jsonArray = (JsonArray) getApi(finalStartIdx, finalEndIdx).get("row");
-                    synchronized (jsonArrays) {
-                        if (!jsonArray.isJsonNull()) {
-                            jsonArrays.add(jsonArray);
-                        }
+                    if (!jsonArray.isJsonNull()) {
+                        jsonArrays.add(jsonArray);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             });
 
-            threads.add(thread);
-            thread.start();
-
             startIdx += range;
             endIdx += range;
 
-        } while (startIdx < totalCount);
+            threads.add(thread);
+        }
+
+        for (Thread thread: threads) {
+            thread.start();
+        }
 
         // 모든 스레드가 작업을 완료할 때까지 대기
         for (Thread thread : threads) {
@@ -111,19 +89,38 @@ public class OpenApiService {
 
     /** Json -> DTO 파싱 후 위경도 보정 호출 */
     public List<WifiInfoDTO> mapJsonToDTO(List<JsonArray> jsonArrays) {
-        List<WifiInfoDTO> wifiInfoDTOList = new ArrayList<>();
+        List<WifiInfoDTO> wifiInfoDTOList = Collections.synchronizedList(new ArrayList<>());
+        List<Thread> threads = new ArrayList<>();
 
         for (JsonArray jsonArray: jsonArrays) {
-            for (JsonElement jsonElement: jsonArray) {
-                if (!jsonElement.isJsonNull()) {
-                    WifiInfoDTO wifiInfoDTO = new Gson().fromJson(jsonElement, WifiInfoDTO.class);
-                    wifiInfoDTOList.add(geoCalibrate(wifiInfoDTO));
+            Thread thread = new Thread(() -> {
+                for (JsonElement jsonElement: jsonArray) {
+                    if (!jsonElement.isJsonNull()) {
+                        WifiInfoDTO wifiInfoDTO = new Gson().fromJson(jsonElement, WifiInfoDTO.class);
+                        wifiInfoDTOList.add(geoCalibrate(wifiInfoDTO));
+                    }
                 }
+            });
+
+            threads.add(thread);
+        }
+
+        for (Thread thread: threads) {
+            thread.start();
+        }
+
+        // 모든 스레드가 작업을 완료할 때까지 대기
+        for (Thread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
 
         return wifiInfoDTOList;
     }
+
 
     /** 위경도 값이 잘못되었을 시 보정 해 주는 작업
      위경도 값이 없으면(0이라면) 보정하지 않음) */

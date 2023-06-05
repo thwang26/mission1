@@ -3,6 +3,9 @@ document.getElementById("getMyLocationButton").onclick = function () {
         function (position) {
             document.getElementById("lat").value = position.coords.latitude.toFixed(7);
             document.getElementById("lnt").value = position.coords.longitude.toFixed(7);
+        },
+        function (error) {
+            console.log(error);
         }
     );
 }

@@ -20,6 +20,7 @@ public class PublicWifiDataServiceTest {
     PublicWifiDataService publicWifiDataService = new PublicWifiDataService();
     WifiInfoDAOImpl wifiInfoDAOImpl = WifiInfoDAOImpl.getInstance();
     WifiInfoDTO wifiInfoDTO = new WifiInfoDTO();
+    OpenApiService openApiService = new OpenApiService();
 
     @DisplayName("api 호출 테스트")
     @Test
@@ -53,12 +54,11 @@ public class PublicWifiDataServiceTest {
     public void getNearWifi() {
         // given
         WifiRequest wifiRequest = new WifiRequest();
-        WifiInfoDAO wifiInfoDAO = new WifiInfoDAOImpl();
         wifiRequest.setLnt(127);
         wifiRequest.setLat(37);
 
         // when
-        List<NearWifiDTO> list = wifiInfoDAO.loadNearWifi(wifiRequest);
+        List<NearWifiDTO> list = wifiInfoDAOImpl.loadNearWifi(wifiRequest);
 
         // then
         Assertions.assertEquals(20, list.size());
@@ -76,5 +76,22 @@ public class PublicWifiDataServiceTest {
 
         // then
         Assertions.assertNotNull(wifiInfoDTO);
+    }
+
+    @DisplayName("멀티스레드+배치처리 성능 테스트")
+    @Test
+    public void speedTest() throws IOException {
+        int runCnt = 10;
+        long totalTime = 0;
+        for (int i = 0; i < runCnt; i++) {
+            long start = System.currentTimeMillis();
+            List<JsonArray> jsonArrays = openApiService.getApiJsonArrays();
+            List<WifiInfoDTO> wifiInfoDTOList = openApiService.mapJsonToDTO(jsonArrays);
+            wifiInfoDAOImpl.insertWifiInfo(wifiInfoDTOList);
+            long end = System.currentTimeMillis();
+            totalTime += end - start;
+        }
+
+        System.out.println("평균 소요시간 = " + totalTime/runCnt + "ms");
     }
 }

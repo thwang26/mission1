@@ -23,7 +23,7 @@
     color: white;
 }
 
-/*#wifiInfo td, #locationHistory td {*/
-/*    text-align: center;*/
-/*}*/
+#wifiInfo td, #locationHistory td {
+    text-align: center;
+}
 

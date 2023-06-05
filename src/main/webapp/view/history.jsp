@@ -12,6 +12,7 @@
 <%
     LocationHistoryService locationHistoryService = new LocationHistoryService();
     List<LocationHistoryDTO> list = locationHistoryService.loadHistory();
+    System.out.println(list.isEmpty());
 %>
 <h1>위치 히스토리 목록</h1>
 <jsp:include page="/view/navigation.jsp"/>
@@ -25,7 +26,7 @@
         <th style="width: 200px">비고</th>
     </tr>
     <%
-        if(list != null){
+        if(!list.isEmpty()){
             for (LocationHistoryDTO locationHistoryDTO : list) {
     %>
     <tr>
@@ -36,11 +37,11 @@
         <td><input type="button" style="text-align: center" value="삭제" onclick="deleteHistory(<%=locationHistoryDTO.getId()%>)"></td>
     </tr>
     <%
-        }
-    } else {
+            }
+        } else {
     %>
     <tr>
-        <td colspan="5" height="50" style="font-weight: bold">히스토리가 없습니다.</td>
+        <td colspan="5" height="50" style="font-weight: bold; text-align: center">히스토리가 없습니다.</td>
     </tr>
     <%
         }
