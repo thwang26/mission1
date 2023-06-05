@@ -1,19 +1,21 @@
-#wifiInfo {
+#wifiInfo, #locationHistory {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
 }
 
-#wifiInfo td, #wifiInfo th {
+#wifiInfo td, #wifiInfo th , #locationHistory td, #locationHistory th{
     border: 1px solid #ddd;
     padding: 8px;
 }
 
 #wifiInfo tr:nth-child(even){background-color: #f2f2f2;}
+#locationHistory tr:nth-child(even){background-color: #f2f2f2;}
 
 #wifiInfo tr:hover {background-color: #ddd;}
+#locationHistory tr:hover {background-color: #ddd;}
 
-#wifiInfo th {
+#wifiInfo th, #locationHistory th{
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: center;
@@ -21,7 +23,7 @@
     color: white;
 }
 
-#wifiInfo td {
-    text-align: center;
-}
+/*#wifiInfo td, #locationHistory td {*/
+/*    text-align: center;*/
+/*}*/
 

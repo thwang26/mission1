@@ -28,7 +28,7 @@
         delete from wifiInfo;
     </delete>
 
-    <select id="selectNearWifi" resultType="nearWifiDTO">
+    <select id="loadNearWifi" resultType="nearWifiDTO">
         select
             ROUND((6371*acos(cos(radians(${lat}))*cos(radians(LAT))*cos(radians(LNT)
                 -radians(${lnt}))+sin(radians(${lat}))*sin(radians(LAT)))), 3)
@@ -37,5 +37,9 @@
         from wifiInfo
         order by DISTANCE
             limit 20;
+    </select>
+
+    <select id="loadDetail" resultType="wifiInfoDTO">
+        select * from wifiInfo where X_SWIFI_MGR_NO = '${mgrNo}';
     </select>
 </mapper>

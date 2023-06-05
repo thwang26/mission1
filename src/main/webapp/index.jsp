@@ -1,7 +1,8 @@
 <%@ page import="domain.WifiRequest" %>
-<%@ page import="service.GetNearWifiService" %>
 <%@ page import="java.util.List" %>
 <%@ page import="domain.NearWifiDTO" %>
+<%@ page import="service.LocationHistoryService" %>
+<%@ page import="service.PublicWifiDataService" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -17,28 +18,24 @@
 
     if (request.getParameter("lat") != null && request.getParameter("lnt") != null) {
         WifiRequest wifiRequest = new WifiRequest();
-        GetNearWifiService getNearWifiService = new GetNearWifiService();
+        PublicWifiDataService publicWifiDataService = new PublicWifiDataService();
+        LocationHistoryService locationHistoryService = new LocationHistoryService();
         lat = Double.parseDouble(request.getParameter("lat"));
         lnt = Double.parseDouble(request.getParameter("lnt"));
 
         wifiRequest.setLat(lat);
         wifiRequest.setLnt(lnt);
 
-        list = getNearWifiService.getNearWifi(wifiRequest);
+        list = publicWifiDataService.loadNearWifi(wifiRequest);
 
         if (!list.isEmpty()) {
-            getNearWifiService.saveHistory(wifiRequest);
+            locationHistoryService.saveHistory(wifiRequest);
         }
     }
 %>
 <h1>와이파이 정보 구하기</h1>
-<br>
-<a href="http://localhost:8080">홈</a> |
-<a href="http://localhost:8080/">위치 히스토리 목록</a> |
-<a href="load-wifi">Open API 와이파이 정보 가져오기</a>
-<br>
-<br>
-<form action="http://localhost:8080/?lat=" method="get">
+<jsp:include page="/view/navigation.jsp"/>
+<form>
     LAT: <input type="text" id="lat" value="<%=lat%>" onfocusout="fillZero(this)">,
     LNT: <input type="text" id="lnt" value="<%=lnt%>" onfocusout="fillZero(this)">
     <input type="button" id="getMyLocationButton" value="내 위치 가져오기">
@@ -47,23 +44,23 @@
 <br>
 <table id="wifiInfo">
     <tr>
-        <th>거리(Km)</th>
-        <th>관리번호</th>
-        <th>자치구</th>
-        <th>와이파이명</th>
-        <th>도로명주소</th>
-        <th>상세주소</th>
-        <th>설치위치(층)</th>
-        <th>설치유형</th>
-        <th>설치기관</th>
-        <th>서비스구분</th>
-        <th>망종류</th>
-        <th>설치년도</th>
-        <th>실내외구분</th>
-        <th>WIFI접속환경</th>
-        <th>X좌표</th>
-        <th>Y좌표</th>
-        <th>작업일자</th>
+        <th style="width: 70px">거리(Km)</th>
+        <th style="width: 80px">관리번호</th>
+        <th style="width: 100px">자치구</th>
+        <th style="width: 200px">와이파이명</th>
+        <th style="width: 200px">도로명주소</th>
+        <th style="width: 200px">상세주소</th>
+        <th style="width: 80px">설치위치(층)</th>
+        <th style="width: 150px">설치유형</th>
+        <th style="width: 100px">설치기관</th>
+        <th style="width: 100px">서비스구분</th>
+        <th style="width: 100px">망종류</th>
+        <th style="width: 80px">설치년도</th>
+        <th style="width: 80px">실내외구분</th>
+        <th style="width: 100px">WIFI접속환경</th>
+        <th style="width: 100px">X좌표</th>
+        <th style="width: 100px">Y좌표</th>
+        <th style="width: 100px">작업일자</th>
     </tr>
     <%
         if(list != null){
@@ -73,7 +70,10 @@
         <td><%=nearWifiDTO.getDISTANCE()%></td>
         <td><%=nearWifiDTO.getX_SWIFI_MGR_NO()%></td>
         <td><%=nearWifiDTO.getX_SWIFI_WRDOFC()%></td>
-        <td><%=nearWifiDTO.getX_SWIFI_MAIN_NM()%></td>
+        <td><a href="http://localhost:8080/view/detail.jsp?mgrNo=
+<%=nearWifiDTO.getX_SWIFI_MGR_NO()%>&distance=
+<%=nearWifiDTO.getDISTANCE()%>">
+            <%=nearWifiDTO.getX_SWIFI_MAIN_NM()%></a></td>
         <td><%=nearWifiDTO.getX_SWIFI_ADRES1()%></td>
         <td><%=nearWifiDTO.getX_SWIFI_ADRES2()%></td>
         <td><%=nearWifiDTO.getX_SWIFI_INSTL_FLOOR()%></td>
@@ -93,7 +93,7 @@
         } else {
     %>
     <tr>
-        <td colspan="17" height="50" style="font-weight: bold">위치 정보를 입력한 후에 조회해 주세요.</td>
+        <td colspan="17" height="50" style="font-weight: bold; text-align: center">위치 정보를 입력한 후에 조회해 주세요.</td>
     </tr>
     <%
         }

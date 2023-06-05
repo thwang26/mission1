@@ -59,11 +59,22 @@ public class WifiInfoDAOImpl implements WifiInfoDAO {
     }
 
     @Override
-    public List<NearWifiDTO> selectNearWifi(WifiRequest wifiRequest) {
+    public List<NearWifiDTO> loadNearWifi(WifiRequest wifiRequest) {
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        List<NearWifiDTO> list = sqlSession.selectList("wifiInfoSQL.selectNearWifi", wifiRequest);
+        List<NearWifiDTO> list = sqlSession.selectList("wifiInfoSQL.loadNearWifi", wifiRequest);
         sqlSession.commit();
         sqlSession.close();
+
         return list;
+    }
+
+    @Override
+    public WifiInfoDTO loadDetail(String mgrNo) {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        WifiInfoDTO wifiInfoDTO = sqlSession.selectOne("wifiInfoSQL.loadDetail", mgrNo);
+        sqlSession.commit();
+        sqlSession.close();
+
+        return wifiInfoDTO;
     }
 }

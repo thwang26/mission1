@@ -1,5 +1,6 @@
 package repository;
 
+import domain.LocationHistoryDTO;
 import domain.WifiRequest;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -8,6 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.List;
 
 public class LocationHistoryDAOImpl implements LocationHistoryDAO {
     private SqlSessionFactory sqlSessionFactory;
@@ -34,11 +36,21 @@ public class LocationHistoryDAOImpl implements LocationHistoryDAO {
         sqlSession.close();
     }
 
-    public int saveHistoryTest(WifiRequest wifiRequest) {
+    @Override
+    public List<LocationHistoryDTO> loadHistory() {
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        int cnt = sqlSession.insert("locationHistorySQL.saveHistory", wifiRequest);
+        List<LocationHistoryDTO> list = sqlSession.selectList("locationHistorySQL.loadHistory");
         sqlSession.commit();
         sqlSession.close();
-        return cnt;
+
+        return list;
+    }
+
+    @Override
+    public void deleteHistory(int id) {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        sqlSession.delete("locationHistorySQL.deleteHistory", id);
+        sqlSession.commit();
+        sqlSession.close();
     }
 }

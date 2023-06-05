@@ -4,7 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
+        <typeAlias type="domain.WifiInfoDTO" alias="wifiInfoDTO"/>
         <typeAlias type="domain.NearWifiDTO" alias="nearWifiDTO"/>
+        <typeAlias type="domain.LocationHistoryDTO" alias="locationHistoryDTO"/>
     </typeAliases>
 
     <environments default="">

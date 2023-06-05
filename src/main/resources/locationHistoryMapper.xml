@@ -4,6 +4,14 @@
 <mapper namespace="locationHistorySQL">
     <insert id="saveHistory">
         insert into locationHistory (lnt, lat, search_date)
-        values(#{lnt}, #{lat}, datetime('now'));
+        values(#{lnt}, #{lat}, datetime('now', 'localtime'));
     </insert>
+
+    <select id="loadHistory" resultType="locationHistoryDTO">
+        select * from locationHistory order by id desc;
+    </select>
+
+    <delete id="deleteHistory">
+        delete from locationHistory WHERE id = ${id};
+    </delete>
 </mapper>
