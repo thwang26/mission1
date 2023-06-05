@@ -1,18 +1,14 @@
 import com.google.gson.JsonArray;
-import domain.LocationHistoryDTO;
 import domain.NearWifiDTO;
 import domain.WifiInfoDTO;
 import domain.WifiRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import repository.WifiInfoDAO;
 import repository.WifiInfoDAOImpl;
-import service.LocationHistoryService;
 import service.OpenApiService;
 import service.PublicWifiDataService;
 
-import javax.xml.stream.Location;
 import java.io.IOException;
 import java.util.List;
 
