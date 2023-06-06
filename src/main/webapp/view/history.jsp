@@ -12,12 +12,11 @@
 <%
     LocationHistoryService locationHistoryService = new LocationHistoryService();
     List<LocationHistoryDTO> list = locationHistoryService.loadHistory();
-    System.out.println(list.isEmpty());
 %>
 <h1>위치 히스토리 목록</h1>
-<jsp:include page="/view/navigation.jsp"/>
+<jsp:include page="/view/component/navigation.jsp"/>
 <br>
-<table id="locationHistory">
+<table id="table">
     <tr>
         <th style="width: 100px">ID</th>
         <th style="width: 400px">X좌표</th>

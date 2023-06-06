@@ -34,15 +34,12 @@
     }
 %>
 <h1>와이파이 정보 구하기</h1>
-<jsp:include page="/view/navigation.jsp"/>
-<form>
-    LAT: <input type="text" id="lat" value="<%=lat%>" onfocusout="fillZero(this)">,
-    LNT: <input type="text" id="lnt" value="<%=lnt%>" onfocusout="fillZero(this)">
-    <input type="button" id="getMyLocationButton" value="내 위치 가져오기">
-    <input type="button" id="getNearWifiButton" value="근처 WIFI 정보 보기">
-</form>
-<br>
-<table id="wifiInfo">
+<jsp:include page="/view/component/navigation.jsp"/>
+<jsp:include page="/view/component/location-input.jsp">
+    <jsp:param name="lat" value="<%=lat%>"/>
+    <jsp:param name="lnt" value="<%=lnt%>"/>
+</jsp:include>
+<table id="table">
     <tr>
         <th style="width: 70px">거리(Km)</th>
         <th style="width: 80px">관리번호</th>

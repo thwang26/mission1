@@ -11,11 +11,11 @@ import java.io.IOException;
 
 @WebServlet(name = "load-wifi", value = "/load-wifi")
 public class LoadWifiServlet extends HttpServlet{
-        public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-                HttpSession session = request.getSession();
-                PublicWifiDataService publicWifiDataService = new PublicWifiDataService();
-                int number = publicWifiDataService.savePublicWifiData();
-                session.setAttribute("number", number);
-                response.sendRedirect("/view/load-wifi.jsp");
-        }
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        PublicWifiDataService publicWifiDataService = new PublicWifiDataService();
+        int number = publicWifiDataService.savePublicWifiData();
+        session.setAttribute("number", number);
+        response.sendRedirect("/view/load-wifi.jsp");
+    }
 }

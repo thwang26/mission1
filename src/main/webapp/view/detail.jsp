@@ -14,11 +14,9 @@
   WifiInfoDTO wifiInfoDTO = publicWifiDataService.loadDetail(mgrNo);
 %>
 <h1>와이파이 정보 구하기</h1>
-<jsp:include page="/view/navigation.jsp"/>
-<form>
-<%--  <input type="button" onclick="insertBookmark()">--%>
-</form>
-<table id="wifiInfo">
+<jsp:include page="/view/component/navigation.jsp"/>
+<jsp:include page="/view/component/bookmark-select.jsp"/>
+<table id="table">
   <tr>
     <th>거리(Km)</th>
     <td><%=distance%></td>
