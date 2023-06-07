@@ -83,5 +83,4 @@
         |   |-- LocationHistoryServiceTest.java
         |   `-- PublicWifiDataServiceTest.java
         `-- resources
-
 ```
