@@ -15,11 +15,11 @@ public class PublicWifiDataService {
     WifiInfoDAO wifiInfoDAO = WifiInfoDAOImpl.getInstance();
 
     /**  api데이터 요청 후 데이터 db에 저장요청 */
-    public int savePublicWifiData() throws IOException {
+    public int savePublicWifiInfo() throws IOException {
         OpenApiService openApiService = new OpenApiService();
         List<JsonArray> jsonArrays = openApiService.getApiJsonArrays();
         List<WifiInfoDTO> wifiInfoDTOList = openApiService.mapJsonToDTO(jsonArrays);
-        return wifiInfoDAO.insertWifiInfo(wifiInfoDTOList);
+        return wifiInfoDAO.savePublicWifiInfo(wifiInfoDTOList);
     }
 
     /** 가까운 반경 20개의 wifi 지역 가져오기 */

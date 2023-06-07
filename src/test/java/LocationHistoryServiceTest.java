@@ -8,7 +8,7 @@ import service.LocationHistoryService;
 
 import java.util.List;
 
-public class LocationHistoryTest {
+public class LocationHistoryServiceTest {
     LocationHistoryDAOImpl locationHistoryDAO = LocationHistoryDAOImpl.getInstance();
     LocationHistoryService locationHistoryService = new LocationHistoryService();
 
@@ -43,7 +43,7 @@ public class LocationHistoryTest {
     @Test
     public void deleteHistory() {
         // given
-        int id = 20;
+        int id = 238;
 
         // when
         locationHistoryService.deleteHistory(id);

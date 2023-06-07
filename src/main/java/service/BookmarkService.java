@@ -6,7 +6,8 @@ import repository.BookmarkDAOImpl;
 
 public class BookmarkService {
     BookmarkDAO bookmarkDAO = BookmarkDAOImpl.getInstance();
-    public int saveBookmarkGroup(BookmarkRequest bookmarkRequest) {
-        return bookmarkDAO.saveBookmarkGroup(bookmarkRequest);
+
+    public void saveBookmark(BookmarkRequest bookmarkRequest) {
+        bookmarkDAO.saveBookmark(bookmarkRequest);
     }
 }

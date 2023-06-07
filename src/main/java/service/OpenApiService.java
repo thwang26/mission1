@@ -75,7 +75,6 @@ public class OpenApiService {
             thread.start();
         }
 
-        // 모든 스레드가 작업을 완료할 때까지 대기
         for (Thread thread : threads) {
             try {
                 thread.join();
@@ -109,7 +108,6 @@ public class OpenApiService {
             thread.start();
         }
 
-        // 모든 스레드가 작업을 완료할 때까지 대기
         for (Thread thread : threads) {
             try {
                 thread.join();
@@ -129,8 +127,8 @@ public class OpenApiService {
         double lat = wifiInfoDTO.getLAT();
 
         if (lat != 0 && !(lat >= 35 && lat <= 40)) {
-            wifiInfoDTO.setLNT(lat); // 경도 (127.xxx)
-            wifiInfoDTO.setLAT(lnt); // 위도 (37.xxx)
+            wifiInfoDTO.setLNT(lat);
+            wifiInfoDTO.setLAT(lnt);
         }
 
         return wifiInfoDTO;

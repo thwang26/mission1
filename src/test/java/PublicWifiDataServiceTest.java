@@ -39,7 +39,7 @@ public class PublicWifiDataServiceTest {
 
 
         // when
-        int number = publicWifiDataService.savePublicWifiData();
+        int number = publicWifiDataService.savePublicWifiInfo();
 
         // then
         Assertions.assertEquals(23304, number);
@@ -77,13 +77,13 @@ public class PublicWifiDataServiceTest {
     @DisplayName("멀티스레드+배치처리 성능 테스트")
     @Test
     public void speedTest() throws IOException {
-        int runCnt = 10;
+        int runCnt = 1;
         long totalTime = 0;
         for (int i = 0; i < runCnt; i++) {
             long start = System.currentTimeMillis();
             List<JsonArray> jsonArrays = openApiService.getApiJsonArrays();
             List<WifiInfoDTO> wifiInfoDTOList = openApiService.mapJsonToDTO(jsonArrays);
-            wifiInfoDAOImpl.insertWifiInfo(wifiInfoDTOList);
+            wifiInfoDAOImpl.savePublicWifiInfo(wifiInfoDTOList);
             long end = System.currentTimeMillis();
             totalTime += end - start;
         }

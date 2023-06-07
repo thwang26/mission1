@@ -8,7 +8,7 @@
 <script>
     window.onload = function() {
         alert("북마크 그룹 정보를 추가하였습니다.");
-        location.href = "http://localhost:8080/view/bookmark-group.jsp";
+        location.href = "bookmark-group.jsp";
     }
 </script>
 </html>

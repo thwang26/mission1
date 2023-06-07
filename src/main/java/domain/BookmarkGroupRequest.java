@@ -5,10 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BookmarkDTO {
+public class BookmarkGroupRequest {
     private int id;
     private String bookmarkName;
     private int orderNum;
-    private String registerDate;
-    private String updateDate;
 }

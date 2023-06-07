@@ -1,5 +1,8 @@
 <%@ page import="service.PublicWifiDataService" %>
 <%@ page import="domain.WifiInfoDTO" %>
+<%@ page import="domain.BookmarkGroupDTO" %>
+<%@ page import="service.BookmarkGroupService" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,6 +15,10 @@
   double distance = Double.parseDouble(request.getParameter("distance"));
   PublicWifiDataService publicWifiDataService = new PublicWifiDataService();
   WifiInfoDTO wifiInfoDTO = publicWifiDataService.loadDetail(mgrNo);
+
+  BookmarkGroupService bookmarkGroupService = new BookmarkGroupService();
+  List<BookmarkGroupDTO> list = bookmarkGroupService.loadBookmarkGroupList();
+  request.setAttribute("list", list);
 %>
 <h1>와이파이 정보 구하기</h1>
 <jsp:include page="/view/component/navigation.jsp"/>
@@ -23,7 +30,7 @@
   </tr>
   <tr>
     <th>관리번호</th>
-    <td><%=wifiInfoDTO.getX_SWIFI_MGR_NO()%></td>
+    <td id="mgrNo"><%=wifiInfoDTO.getX_SWIFI_MGR_NO()%></td>
   </tr>
   <tr>
     <th>자치구</th>
@@ -87,5 +94,6 @@
   </tr>
 </table>
 <script src="${pageContext.request.contextPath}/js/index.js"></script>
+<script src="${pageContext.request.contextPath}/js/bookmark.js"></script>
 </body>
 </html>

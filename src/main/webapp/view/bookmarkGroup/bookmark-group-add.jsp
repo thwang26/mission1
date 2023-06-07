@@ -5,12 +5,9 @@
     <link href="${pageContext.request.contextPath}/css/index.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<%
-
-%>
 <h1>북마크 그룹 추가</h1>
 <jsp:include page="/view/component/navigation.jsp"/>
-<form action="http://localhost:8080/bookmark-group-add-submit" method="post" id="bookmarkForm">
+<form action="http://localhost:8080/bookmark-group-add-submit" method="post" id="bookmarkAddForm">
     <table id="table">
         <tr>
             <th style="width: 150px">북마크 이름</th>
@@ -22,11 +19,12 @@
         </tr>
         <tr>
             <td colspan="2">
-                <input type="button" value="추가" onclick="addBookmark()">
+                <input type="button" value="추가" onclick="addBookmarkGroup()">
+                <input type="button" value="취소" onclick="cancel()">
             </td>
         </tr>
     </table>
 </form>
-<script src="${pageContext.request.contextPath}/js/bookmark.js"></script>
+<script src="${pageContext.request.contextPath}/js/bookmarkGroup.js"></script>
 </body>
 </html>

@@ -30,7 +30,7 @@ public class WifiInfoDAOImpl implements WifiInfoDAO {
     } // 싱글톤으로 db생성
 
     @Override
-    public int insertWifiInfo(List<WifiInfoDTO> wifiInfoDTOList) {
+    public int savePublicWifiInfo(List<WifiInfoDTO> wifiInfoDTOList) {
         delete();
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
         // 배치 모드로 SqlSession 생성

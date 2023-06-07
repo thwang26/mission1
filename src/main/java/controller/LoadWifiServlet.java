@@ -14,7 +14,7 @@ public class LoadWifiServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         PublicWifiDataService publicWifiDataService = new PublicWifiDataService();
-        int number = publicWifiDataService.savePublicWifiData();
+        int number = publicWifiDataService.savePublicWifiInfo();
         session.setAttribute("number", number);
         response.sendRedirect("/view/load-wifi.jsp");
     }

@@ -7,7 +7,7 @@
         <typeAlias type="domain.WifiInfoDTO" alias="wifiInfoDTO"/>
         <typeAlias type="domain.NearWifiDTO" alias="nearWifiDTO"/>
         <typeAlias type="domain.LocationHistoryDTO" alias="locationHistoryDTO"/>
-        <typeAlias type="domain.BookmarkDTO" alias="bookmarkDTO"/>
+        <typeAlias type="domain.BookmarkGroupDTO" alias="bookmarkGroupDTO"/>
     </typeAliases>
 
     <environments default="">
@@ -24,6 +24,7 @@
     <mappers>
         <mapper resource="wifiInfoMapper.xml"/>
         <mapper resource="locationHistoryMapper.xml"/>
+        <mapper resource="bookmarkGroupMapper.xml"/>
         <mapper resource="bookmarkMapper.xml"/>
     </mappers>
 <!--  query문 mapper  -->

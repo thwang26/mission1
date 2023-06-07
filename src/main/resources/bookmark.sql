@@ -1,8 +1,8 @@
-CREATE TABLE "bookmark" (
-    "id"	INTEGER NOT NULL
+create table bookmark
+(
+    id      Integer
         primary key autoincrement,
-    "bookmarkName"	TEXT,
-    "orderNum"	INTEGER,
-    "registerDate"	TEXT,
-    "updateDate"	TEXT
+    groupId Integer
+        references bookmarkGroup,
+    mgrNo   TEXT
 );

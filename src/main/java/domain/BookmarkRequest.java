@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BookmarkRequest {
-    private String bookmarkName;
-    private int orderNum;
+    private int id;
+    private String mgrNo;
 }

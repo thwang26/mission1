@@ -1,14 +1,10 @@
-function toBookmarkAdd () {
-    location.href = "http://localhost:8080/view/bookmark-group-add.jsp";
-}
-
-function addBookmark () {
-    const bookmarkName = document.getElementById("bookmarkName").value;
-    const orderNum = document.getElementById("orderNum").value;
-
-    if (!bookmarkName || !orderNum) {
-        alert("내용을 입력해주세요.");
+function addBookmark() {
+    const select = document.getElementById("bookmarkGroupSelect");
+    const id = select.options[select.selectedIndex].value;
+    const mgrNo = document.getElementById("mgrNo").innerText;
+    if(!id) {
+        alert("북마크 그룹을 선택 해 주세요.");
     } else {
-        document.getElementById("bookmarkForm").submit();
+        location.href = "http://localhost:8080/bookmark-add-submit?id="+id+"&mgrNo="+mgrNo;
     }
 }
