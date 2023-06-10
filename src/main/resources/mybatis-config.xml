@@ -8,6 +8,7 @@
         <typeAlias type="domain.NearWifiDTO" alias="nearWifiDTO"/>
         <typeAlias type="domain.LocationHistoryDTO" alias="locationHistoryDTO"/>
         <typeAlias type="domain.BookmarkGroupDTO" alias="bookmarkGroupDTO"/>
+        <typeAlias type="domain.BookmarkDTO" alias="bookmarkDTO"/>
     </typeAliases>
 
     <environments default="">
@@ -22,10 +23,10 @@
 <!--  SQLite 정보  -->
 
     <mappers>
-        <mapper resource="wifiInfoMapper.xml"/>
-        <mapper resource="locationHistoryMapper.xml"/>
-        <mapper resource="bookmarkGroupMapper.xml"/>
-        <mapper resource="bookmarkMapper.xml"/>
+        <mapper resource="mapper/wifiInfoMapper.xml"/>
+        <mapper resource="mapper/locationHistoryMapper.xml"/>
+        <mapper resource="mapper/bookmarkGroupMapper.xml"/>
+        <mapper resource="mapper/bookmarkMapper.xml"/>
     </mappers>
 <!--  query문 mapper  -->
 </configuration>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bookmarkSQL">
+    <insert id="saveBookmark">
+        insert into bookmark (groupId, mgrNo, registerDate)
+        values (${id}, '${mgrNo}', datetime('now', 'localtime'));
+    </insert>
+
+    <select id="loadBookmarkList" resultType="bookmarkDTO">
+        select bm.id, bG.bookmarkName, wI.X_SWIFI_MAIN_NM as wifiName, bm.registerDate
+        from bookmark bm
+            join bookmarkGroup bG on bm.groupId = bG.id
+            join wifiInfo wI on bm.mgrNo = wI.X_SWIFI_MGR_NO;
+    </select>
+
+    <select id="loadBookmark" resultType="bookmarkDTO">
+        select bm.id, bG.bookmarkName, wI.X_SWIFI_MAIN_NM as wifiName, bm.registerDate
+        from bookmark bm
+            join bookmarkGroup bG on bm.groupId = bG.id
+            join wifiInfo wI on bm.mgrNo = wI.X_SWIFI_MGR_NO
+        where bm.id = ${id};
+    </select>
+
+    <delete id="deleteBookmark">
+        delete from bookmark where id = ${id};
+    </delete>
+
+    <delete id="deleteDeletedBookmarkGroup">
+        delete from bookmark where groupId = ${id};
+    </delete>
+</mapper>

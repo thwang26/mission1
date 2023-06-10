@@ -5,4 +5,6 @@ create table bookmark
     groupId Integer
         references bookmarkGroup,
     mgrNo   TEXT
+        references wifiInfo,
+    registerDate TEXT
 );

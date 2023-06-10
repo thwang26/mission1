@@ -8,3 +8,11 @@ function addBookmark() {
         location.href = "http://localhost:8080/bookmark-add-submit?id="+id+"&mgrNo="+mgrNo;
     }
 }
+
+function toDeleteBookmarkPage(id) {
+    location.href = "http://localhost:8080/view/bookmark/bookmark-delete.jsp?id="+id;
+}
+
+function deleteBookmark(id) {
+    location.href = "http://localhost:8080/view/bookmark/bookmark-delete-submit.jsp?id="+id;
+}
