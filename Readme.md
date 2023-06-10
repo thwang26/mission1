@@ -15,6 +15,7 @@
     |   |   |   |-- DeleteHistoryServlet.java
     |   |   |   `-- LoadWifiServlet.java
     |   |   |-- domain
+    |   |   |   |-- BookmarkDTO.java
     |   |   |   |-- BookmarkGroupDTO.java
     |   |   |   |-- BookmarkGroupRequest.java
     |   |   |   |-- BookmarkRequest.java
@@ -38,15 +39,17 @@
     |   |       |-- OpenApiService.java
     |   |       `-- PublicWifiDataService.java
     |   |-- resources
-    |   |   |-- bookmark.sql
-    |   |   |-- bookmarkGroup.sql
-    |   |   |-- bookmarkGroupMapper.xml
-    |   |   |-- bookmarkMapper.xml
-    |   |   |-- locationHistory.sql
-    |   |   |-- locationHistoryMapper.xml
+    |   |   |-- mapper
+    |   |   |   |-- bookmarkGroupMapper.xml
+    |   |   |   |-- bookmarkMapper.xml
+    |   |   |   |-- locationHistoryMapper.xml
+    |   |   |   `-- wifiInfoMapper.xml
     |   |   |-- mybatis-config.xml
-    |   |   |-- wifiInfo.sql
-    |   |   `-- wifiInfoMapper.xml
+    |   |   `-- sql
+    |   |       |-- bookmark.sql
+    |   |       |-- bookmarkGroup.sql
+    |   |       |-- locationHistory.sql
+    |   |       `-- wifiInfo.sql
     |   `-- webapp
     |       |-- WEB-INF
     |       |   `-- web.xml
@@ -61,6 +64,8 @@
     |       `-- view
     |           |-- bookmark
     |           |   |-- bookmark-add-submit.jsp
+    |           |   |-- bookmark-delete-submit.jsp
+    |           |   |-- bookmark-delete.jsp
     |           |   `-- bookmark-list.jsp
     |           |-- bookmarkGroup
     |           |   |-- bookmark-group-add-submit.jsp
