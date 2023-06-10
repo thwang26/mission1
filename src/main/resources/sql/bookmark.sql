@@ -1,10 +1,10 @@
 create table bookmark
 (
-    id      Integer
+    id           Integer
         primary key autoincrement,
-    groupId Integer
+    groupId      Integer
         references bookmarkGroup,
-    mgrNo   TEXT
+    mgrNo        TEXT
         references wifiInfo,
     registerDate TEXT
 );
