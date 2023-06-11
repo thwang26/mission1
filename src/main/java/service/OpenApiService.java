@@ -1,6 +1,7 @@
 package service;
 
 import com.google.gson.*;
+import domain.UrlParameters;
 import domain.WifiInfoDTO;
 
 import java.io.BufferedReader;
@@ -15,11 +16,12 @@ import java.util.*;
 public class OpenApiService {
     /** 지정한 인덱스 범위만큼의 데이터 api 요청 */
     public JsonObject getApi(int startIdx, int endIdx) throws IOException {
-        String urlBuilder = "http://openapi.seoul.go.kr:8088" + "/" + URLEncoder.encode("4668414e5568747734355a596d6b6e", "UTF-8") +
-                "/" + URLEncoder.encode("json", "UTF-8") +
-                "/" + URLEncoder.encode("TbPublicWifiInfo", "UTF-8") +
-                "/" + URLEncoder.encode(String.valueOf(startIdx), "UTF-8") +
-                "/" + URLEncoder.encode(String.valueOf(endIdx), "UTF-8");
+        String urlBuilder = UrlParameters.BASE_URL.getValue() +
+                "/" + UrlParameters.API_KEY.getValue() +
+                "/" + UrlParameters.FORMAT.getValue() +
+                "/" + UrlParameters.SERVICE.getValue() +
+                "/" + startIdx +
+                "/" + endIdx;
 
         URL url = new URL(urlBuilder);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -120,7 +122,7 @@ public class OpenApiService {
     }
 
 
-    /** 위경도 값이 잘못되었을 시 보정 해 주는 작업
+    /** 위경도 값이 잘못되었을 시(반대로 되어있을 때) 보정 해 주는 작업
      위경도 값이 없으면(0이라면) 보정하지 않음) */
     public WifiInfoDTO geoCalibrate(WifiInfoDTO wifiInfoDTO) {
         double lnt = wifiInfoDTO.getLNT();
