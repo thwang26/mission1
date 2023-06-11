@@ -21,6 +21,7 @@
     |   |   |   |-- BookmarkRequest.java
     |   |   |   |-- LocationHistoryDTO.java
     |   |   |   |-- NearWifiDTO.java
+    |   |   |   |-- UrlParameters.java
     |   |   |   |-- WifiInfoDTO.java
     |   |   |   `-- WifiRequest.java
     |   |   |-- repository
